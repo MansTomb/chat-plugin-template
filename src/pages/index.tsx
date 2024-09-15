@@ -17,7 +17,7 @@ const Render = memo(async () => {
   if (!data) {
     return null;
   }
-  <Data articles={data.articles} settings={settings} updateSettings={setSettings} fetchData={async() => {}} />
+  return <Data articles={data.articles} settings={settings} updateSettings={setSettings} fetchData={async() => {}} />
 });
 
 export default Render;
