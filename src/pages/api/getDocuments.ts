@@ -1,5 +1,6 @@
-import { PluginErrorType, createErrorResponse, getPluginSettingsFromRequest } from '@lobehub/chat-plugin-sdk';
-import { ResponseData, Settings } from '@/type';
+import { PluginErrorType, createErrorResponse } from '@lobehub/chat-plugin-sdk';
+import { Settings } from '@/type';
+import { API } from '@/API';
 
 export const config = {
   runtime: 'edge',
@@ -24,20 +25,13 @@ export default async (req: Request) => {
   }
 
   try {
-    const response = await fetch('http://localhost:3401/api/documents', {
-      method: 'POST',
-      body: JSON.stringify(settings),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await API.documents(JSON.stringify(settings));
 
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     }
 
-    const folders = await response.json() as ResponseData;
-    return new Response(JSON.stringify(folders));
+    return response;
   } catch (error) {
     return createErrorResponse(PluginErrorType.BadRequest, {
       message: 'Fail at backend: ' + error,

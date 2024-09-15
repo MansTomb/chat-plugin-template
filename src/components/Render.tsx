@@ -1,31 +1,19 @@
-// Render.tsx
+
 import React, { memo, useEffect, useState } from 'react';
-import { Button, Modal, Spin, Tree } from 'antd';
-import { Flexbox } from 'react-layout-kit';
-import ReactMarkdown from 'react-markdown';
-import { Article, ResponseData, Setting, Settings } from '@/type';
+import { Button } from 'antd';
+import ArticleTree, { TreeNode } from './ArticleTree';
+import ArticleModal from './ArticleModal';
+import Loader from './Loader';
 import SettingsForm from './SettingsForm';
+import { Article, ResponseData, Setting, Settings } from '@/type';
 import { createStyles } from 'antd-style';
+import { Flexbox } from 'react-layout-kit';
 
 const useStyles = createStyles(({ css, token }) => ({
   list: css`
     margin-top: 16px;
   `,
-  articleTitle: css`
-    cursor: pointer;
-    font-weight: bold;
-    &:hover {
-      color: ${token.colorPrimary};
-    }
-  `,
 }));
-
-interface TreeNode {
-  title: string;
-  key: string;
-  children?: TreeNode[];
-  article?: Article;
-}
 
 interface RenderProps extends ResponseData {
   settings: Settings;
@@ -41,7 +29,7 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
 
   const settingsConfig = [
     { key: 'DOCUMENTS_ROOT_FOLDER', label: 'Document Root Folder', placeholder: 'Enter document root folder' } as Setting,
-    { key: 'FILTER', label: 'Filter (Separated by ;)', placeholder: 'Enter filter here (separated by ; regex supported)' }as Setting,
+    { key: 'FILTER', label: 'Filter (Separated by ;)', placeholder: 'Enter filter here (separated by ; regex supported)' } as Setting,
   ];
 
   const handleFetchData = async () => {
@@ -104,36 +92,12 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
   return (
     <Flexbox gap={24}>
       <SettingsForm settings={settings} updateSettings={updateSettings} settingsConfig={settingsConfig} />
-      
-
       <Button onClick={handleFetchData} type="primary" loading={loading}>
         Fetch
       </Button>
-
-      {loading && <Spin size="small" style={{ marginLeft: 8 }} />}
-
-      <Tree
-        className={styles.list}
-        treeData={treeData}
-        defaultExpandAll={false}
-        onSelect={(_, { node }) => {
-          if (node.article) {
-            handleArticleClick(node.article);
-          }
-        }}
-        showLine
-      />
-
-      <Modal
-        title={selectedArticle?.title}
-        visible={!!selectedArticle}
-        onCancel={handleCloseModal}
-        footer={null}
-      >
-        {selectedArticle && (
-          <ReactMarkdown>{selectedArticle.content}</ReactMarkdown>
-        )}
-      </Modal>
+      {loading && <Loader />}
+      <ArticleTree treeData={treeData} onArticleSelect={handleArticleClick} />
+      <ArticleModal article={selectedArticle} onClose={handleCloseModal} />
     </Flexbox>
   );
 });
