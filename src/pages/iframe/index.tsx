@@ -37,6 +37,8 @@ const Render = memo(() => {
   }, []);
 
   const fetchData = async () => {
+    // clear data
+    setData(undefined);
     const data = await fetchDocuments(payload, settings); // Incorporate settings into fetch
     setData(data);
     lobeChat.setPluginMessage(data);

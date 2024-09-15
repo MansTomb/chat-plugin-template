@@ -1,10 +1,11 @@
+// Render.tsx
+import React, { memo, useEffect, useState } from 'react';
 import { Button, Modal, Spin, Tree } from 'antd';
-import { createStyles } from 'antd-style';
-import { memo, useEffect, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import ReactMarkdown from 'react-markdown';
-import { Article, ResponseData, Settings } from '@/type';
-import { Input } from '@lobehub/ui';
+import { Article, ResponseData, Setting, Settings } from '@/type';
+import SettingsForm from './SettingsForm';
+import { createStyles } from 'antd-style';
 
 const useStyles = createStyles(({ css, token }) => ({
   list: css`
@@ -38,15 +39,10 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
 
-  const handleRootFolderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    updateSettings({ ...settings, DOCUMENTS_ROOT_FOLDER: value });
-  };
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    updateSettings({ ...settings, FILTER: value });
-  };
+  const settingsConfig = [
+    { key: 'DOCUMENTS_ROOT_FOLDER', label: 'Document Root Folder', placeholder: 'Enter document root folder' } as Setting,
+    { key: 'FILTER', label: 'Filter (Separated by ;)', placeholder: 'Enter filter here (separated by ; regex supported)' }as Setting,
+  ];
 
   const handleFetchData = async () => {
     setLoading(true);
@@ -95,7 +91,6 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
       });
     };
     
-
     return convertTree(tree);
   };
 
@@ -108,25 +103,8 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
 
   return (
     <Flexbox gap={24}>
-      <Flexbox gap={8}>
-        <label htmlFor="documentsRootFolder">Document Root Folder:</label>
-        <Input
-          id="documentsRootFolder"
-          value={settings.DOCUMENTS_ROOT_FOLDER}
-          onChange={handleRootFolderChange}
-          placeholder="Enter document root folder"
-        />
-      </Flexbox>
-
-      <Flexbox gap={8}>
-        <label htmlFor="filter">Filter (Separated by ;):</label>
-        <Input
-          id="filter"
-          value={settings.FILTER}
-          onChange={handleFilterChange}
-          placeholder="Enter filter here (separated by ; regex supported)"
-        />
-      </Flexbox>
+      <SettingsForm settings={settings} updateSettings={updateSettings} settingsConfig={settingsConfig} />
+      
 
       <Button onClick={handleFetchData} type="primary" loading={loading}>
         Fetch
@@ -139,7 +117,7 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
         treeData={treeData}
         defaultExpandAll={false}
         onSelect={(_, { node }) => {
-          if (node.article) { // Check for the presence of an article
+          if (node.article) {
             handleArticleClick(node.article);
           }
         }}

@@ -15,3 +15,9 @@ export interface Settings {
   DOCUMENTS_ROOT_FOLDER?: string;
   FILTER?: string;
 }
+
+export interface Setting {
+  key: keyof Settings;
+  label: string;
+  placeholder: string;
+}
