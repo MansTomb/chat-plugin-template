@@ -2,9 +2,9 @@
   "$schema": "../node_modules/@lobehub/chat-plugin-sdk/schema.json",
   "api": [
     {
-      "url": "http://localhost:3400/api/getFolders",
-      "name": "getFolders",
-      "description": "Get folders",
+      "url": "http://localhost:3400/api/getDocuments",
+      "name": "getDocuments",
+      "description": "Retrieving all documents from database",
       "parameters": {
         "properties": {},
         "type": "object"
@@ -13,11 +13,11 @@
   ],
   "settings": {
     "type": "object",
-    "required": ["NOVEL_ROOT_FOLDER"],
+    "required": ["DOCUMENTS_ROOT_FOLDER"],
     "properties": {
       "NOVEL_ROOT_FOLDER": {
-        "title": "Novel Root Folder",
-        "description": "Root folder of novel",
+        "title": "Documents Root Folder",
+        "description": "Root Documents folder",
         "type": "string",
         "minLength": 1,
         "maxLength": 128
@@ -35,8 +35,10 @@
   },
   "type": "standalone",
   "ui": {
+    "mode": "module",
     "url": "http://localhost:3400/iframe",
-    "height": 200
+    "height": 1000,
+    "width": 12000
   },
   "version": "1"
 }

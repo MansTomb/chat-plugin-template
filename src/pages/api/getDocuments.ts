@@ -8,7 +8,8 @@ export const config = {
 export default async (req: Request) => {
   if (req.method !== 'POST') return createErrorResponse(PluginErrorType.MethodNotAllowed);
 
-  const settings = getPluginSettingsFromRequest<Settings>(req);
+  const payload = await req.json();
+  const settings = payload.settings as Settings;
 
   if (!settings) {
     return createErrorResponse(PluginErrorType.PluginSettingsInvalid, {
@@ -16,14 +17,14 @@ export default async (req: Request) => {
     });
   }
 
-  if (!settings.NOVEL_ROOT_FOLDER) {
+  if (!settings.DOCUMENTS_ROOT_FOLDER) {
     return createErrorResponse(PluginErrorType.PluginSettingsInvalid, {
       message: 'Root folder not set.',
     });
   }
 
   try {
-    const response = await fetch('http://localhost:3401/api/folders', {
+    const response = await fetch('http://localhost:3401/api/documents', {
       method: 'POST',
       body: JSON.stringify(settings),
       headers: {
