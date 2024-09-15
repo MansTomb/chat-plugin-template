@@ -13,11 +13,18 @@
   ],
   "settings": {
     "type": "object",
-    "required": ["DOCUMENTS_ROOT_FOLDER"],
+    "required": [],
     "properties": {
-      "NOVEL_ROOT_FOLDER": {
-        "title": "Documents Root Folder",
-        "description": "Root Documents folder",
+      "DOCUMENTS_ROOT_FOLDER": {
+        "title": "Default Documents Folder",
+        "description": "Default folder for documents",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "FILTER": {
+        "title": "Defaut Filter",
+        "description": "Default filter for documents (regex splited by ;)",
         "type": "string",
         "minLength": 1,
         "maxLength": 128

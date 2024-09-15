@@ -4,9 +4,9 @@ import { memo, useEffect, useState } from 'react';
 import Data from '@/components/Render';
 import { ResponseData, Settings } from '@/type';
 
-const Render = memo(() => {
+const Render = memo(async () => {
   const [data, setData] = useState<ResponseData>();
-  const [settings, setSettings] = useState<Settings>({ DOCUMENTS_ROOT_FOLDER: '', /* other default settings */ });
+  const [settings, setSettings] = useState<Settings>(await lobeChat.getPluginSettings());
 
   useEffect(() => {
     lobeChat.getPluginMessage().then((e: ResponseData) => {
