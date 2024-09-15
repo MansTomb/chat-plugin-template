@@ -1,16 +1,14 @@
-export interface ClothesItem {
-  description: string;
+export interface FolderItem {
   name: string;
 }
-type Mood = 'happy' | 'sad' | 'anger' | 'fear' | 'surprise' | 'disgust';
 
 export interface ResponseData {
-  clothes: ClothesItem[];
-  mood: Mood;
-  today: number;
+  folders: FolderItem[];
 }
 
 export interface RequestData {
-  gender: 'man' | 'woman';
-  mood: Mood;
+}
+
+export interface Settings {
+  NOVEL_ROOT_FOLDER?: string;
 }

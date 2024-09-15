@@ -4,34 +4,38 @@ import { memo, useEffect, useState } from 'react';
 import { Center } from 'react-layout-kit';
 
 import Data from '@/components/Render';
-import { fetchClothes } from '@/services/clothes';
+import { fetchFolders } from '@/services/folders';
 import { ResponseData } from '@/type';
 
 const Render = memo(() => {
-  // 初始化渲染状态
+  // Initialize rendering state
   const [data, setData] = useState<ResponseData>();
 
-  // 初始化时从主应用同步状态
+  // Synchronize state from the main application during initialization
   useEffect(() => {
     lobeChat.getPluginMessage().then(setData);
   }, []);
 
-  // 记录请求参数
+  // Record request parameters
   const [payload, setPayload] = useState<any>();
 
   useEffect(() => {
     lobeChat.getPluginPayload().then((payload) => {
-      if (payload.name === 'recommendClothes') {
+      if (payload.name === 'fetchFolders') {
         setPayload(payload.arguments);
       }
     });
   }, []);
 
   const fetchData = async () => {
-    const data = await fetchClothes(payload);
+    const data = await fetchFolders(payload);
     setData(data);
     lobeChat.setPluginMessage(data);
   };
+
+  if (!data) {
+    fetchData();
+  }
 
   return data ? (
     <Data {...data}></Data>
@@ -40,11 +44,12 @@ const Render = memo(() => {
       <Button
         disabled={!payload}
         onClick={() => {
+          console.log('fetchData');
           fetchData();
         }}
         type={'primary'}
       >
-        查询衣物
+        Get Data
       </Button>
     </Center>
   );

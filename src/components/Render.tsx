@@ -12,21 +12,18 @@ const useStyles = createStyles(({ css, token }) => ({
   `,
 }));
 
-const Render = memo<Partial<ResponseData>>(({ mood, clothes, today }) => {
+const Render = memo<Partial<ResponseData>>(({ folders }) => {
   const { styles } = useStyles();
 
+  // render list of folders
   return (
     <Flexbox gap={24}>
-      <Flexbox distribution={'space-between'} horizontal>
-        🌟心情：{mood}
-        <span className={styles.date}>{dayjs(today).format('YYYY/MM/DD')}</span>
-      </Flexbox>
       <Flexbox gap={8}>
-        推荐衣物
-        <Flexbox gap={12} horizontal style={{ overflow: 'scroll' }}>
-          {clothes?.map((item) => (
-            <Card key={item.name} size={'small'} title={item.name}>
-              {item.description}
+        List of folders
+        <Flexbox gap={12}>
+          {folders?.map((folder) => (
+            <Card key={folder.name} title={folder.name}>
+              <div>Folder</div>
             </Card>
           ))}
         </Flexbox>

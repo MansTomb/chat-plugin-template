@@ -1,10 +1,10 @@
 {
-  "name": "plugin-identifier",
+  "name": "novel-manager",
   "version": "1.5.1",
   "private": true,
   "description": "This is the plugin template for LobeChat plugin development",
-  "homepage": "https://github.com/lobehub/chat-plugin-template",
-  "repository": "https://github.com/lobehub/chat-plugin-template.git",
+  "homepage": "https://github.com/MansTomb/WN",
+  "repository": "https://github.com/MansTomb/WN.git",
   "workspaces": [
     "docs/*",
     "./*"

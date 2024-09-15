@@ -57,10 +57,10 @@ This is the plugin template for LobeChat plugin development
 
 ## 🤯 Usage
 
-> [!IMPORTANT]\
+> \[!IMPORTANT]\
 > See detail on [📘 Template usage](https://chat-plugin-sdk.lobehub.com/guides/template)
 
-> [!Note]\
+> \[!Note]\
 > Plugins provide a means to extend the [Function Calling][fc-link] capabilities of LobeChat. They can be used to introduce new function calls, and even new ways to render message results. If you are interested in plugin development, please refer to our [📘 Plugin Development Guide](https://github.com/lobehub/lobe-chat/wiki/Plugin-Development) in the Wiki.
 >
 > - [@lobehub/lobe-chat-plugins][lobe-chat-plugins]: This is the plugin index for LobeChat. It accesses index.json from this repository to display a list of available plugins for LobeChat to the user.
@@ -90,7 +90,7 @@ Or clone it for local development:
 [![][bun-shield]][bun-link]
 
 ```bash
-$ git clone https://github.com/lobehub/chat-plugin-template.git
+$ git clone https://github.com/MansTomb/WN.git
 $ cd chat-plugin-template
 $ bun install
 $ bun dev
@@ -147,29 +147,29 @@ This project is [MIT](./LICENSE) licensed.
 [chat-plugin-web-crawler]: https://github.com/lobehub/chat-plugin-web-crawler
 [chat-plugins-gateway]: https://github.com/lobehub/chat-plugins-gateway
 [fc-link]: https://sspai.com/post/81986
-[github-action-release-link]: https://github.com/lobehub/chat-plugin-template/actions/workflows/release.yml
-[github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/lobehub/chat-plugin-template/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
-[github-action-test-link]: https://github.com/lobehub/chat-plugin-template/actions/workflows/test.yml
-[github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/lobehub/chat-plugin-template/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
-[github-codespace-link]: https://codespaces.new/lobehub/chat-plugin-template
+[github-action-release-link]: https://github.com/MansTomb/WN/actions/workflows/release.yml
+[github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/MansTomb/WN/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
+[github-action-test-link]: https://github.com/MansTomb/WN/actions/workflows/test.yml
+[github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/MansTomb/WN/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
+[github-codespace-link]: https://codespaces.new/MansTomb/WN
 [github-codespace-shield]: https://github.com/codespaces/badge.svg
-[github-contrib-link]: https://github.com/lobehub/chat-plugin-template/graphs/contributors
+[github-contrib-link]: https://github.com/MansTomb/WN/graphs/contributors
 [github-contrib-shield]: https://contrib.rocks/image?repo=lobehub%2Fchat-plugin-template
-[github-contributors-link]: https://github.com/lobehub/chat-plugin-template/graphs/contributors
-[github-contributors-shield]: https://img.shields.io/github/contributors/lobehub/chat-plugin-template?color=c4f042&labelColor=black&style=flat-square
-[github-forks-link]: https://github.com/lobehub/chat-plugin-template/network/members
-[github-forks-shield]: https://img.shields.io/github/forks/lobehub/chat-plugin-template?color=8ae8ff&labelColor=black&style=flat-square
-[github-issues-link]: https://github.com/lobehub/chat-plugin-template/issues
-[github-issues-shield]: https://img.shields.io/github/issues/lobehub/chat-plugin-template?color=ff80eb&labelColor=black&style=flat-square
-[github-license-link]: https://github.com/lobehub/chat-plugin-template/blob/main/LICENSE
-[github-license-shield]: https://img.shields.io/github/license/lobehub/chat-plugin-template?color=white&labelColor=black&style=flat-square
-[github-release-link]: https://github.com/lobehub/chat-plugin-template/releases
-[github-release-shield]: https://img.shields.io/github/v/release/lobehub/chat-plugin-template?color=369eff&labelColor=black&logo=github&style=flat-square
-[github-releasedate-link]: https://github.com/lobehub/chat-plugin-template/releases
-[github-releasedate-shield]: https://img.shields.io/github/release-date/lobehub/chat-plugin-template?labelColor=black&style=flat-square
-[github-stars-link]: https://github.com/lobehub/chat-plugin-template/network/stargazers
-[github-stars-shield]: https://img.shields.io/github/stars/lobehub/chat-plugin-template?color=ffcb47&labelColor=black&style=flat-square
+[github-contributors-link]: https://github.com/MansTomb/WN/graphs/contributors
+[github-contributors-shield]: https://img.shields.io/github/contributors/MansTomb/WN?color=c4f042&labelColor=black&style=flat-square
+[github-forks-link]: https://github.com/MansTomb/WN/network/members
+[github-forks-shield]: https://img.shields.io/github/forks/MansTomb/WN?color=8ae8ff&labelColor=black&style=flat-square
+[github-issues-link]: https://github.com/MansTomb/WN/issues
+[github-issues-shield]: https://img.shields.io/github/issues/MansTomb/WN?color=ff80eb&labelColor=black&style=flat-square
+[github-license-link]: https://github.com/MansTomb/WN/blob/main/LICENSE
+[github-license-shield]: https://img.shields.io/github/license/MansTomb/WN?color=white&labelColor=black&style=flat-square
+[github-release-link]: https://github.com/MansTomb/WN/releases
+[github-release-shield]: https://img.shields.io/github/v/release/MansTomb/WN?color=369eff&labelColor=black&logo=github&style=flat-square
+[github-releasedate-link]: https://github.com/MansTomb/WN/releases
+[github-releasedate-shield]: https://img.shields.io/github/release-date/MansTomb/WN?labelColor=black&style=flat-square
+[github-stars-link]: https://github.com/MansTomb/WN/network/stargazers
+[github-stars-shield]: https://img.shields.io/github/stars/MansTomb/WN?color=ffcb47&labelColor=black&style=flat-square
 [lobe-chat-plugins]: https://github.com/lobehub/lobe-chat-plugins
-[pr-welcome-link]: https://github.com/lobehub/chat-plugin-template/pulls
+[pr-welcome-link]: https://github.com/MansTomb/WN/pulls
 [pr-welcome-shield]: https://img.shields.io/badge/%F0%9F%A4%AF%20PR%20WELCOME-%E2%86%92-ffcb47?labelColor=black&style=for-the-badge
 [profile-url]: https://github.com/lobehub
