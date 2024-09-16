@@ -43,13 +43,11 @@ const Render = memo(() => {
     const unsubscribe = subscribeToDocumentUpdates(
       (newDocument) => {
         if (ignoreUpdatesWhileFetching) return;
-        console.log('old data1', data);
 
         const newData = {
           ...data,
           articles: [...data?.articles ? data.articles : [], newDocument],
         };
-        console.log('updated data1', newData);
 
         setData(newData);
         lobeChat.setPluginMessage(formatData(newData));
@@ -57,7 +55,6 @@ const Render = memo(() => {
       
       (updatedDocument) => {
         if (ignoreUpdatesWhileFetching) return;
-        console.log('old data', data);
 
         const newData = {
           ...data,
@@ -66,7 +63,6 @@ const Render = memo(() => {
             updatedDocument,
           ],
         };
-        console.log('updated data', newData);
         setData(newData);
         lobeChat.setPluginMessage(formatData(newData));
     },
