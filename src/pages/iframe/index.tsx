@@ -8,7 +8,7 @@ import { ResponseData, Settings } from '@/type';
 const Render = memo(() => {
   const [data, setData] = useState<ResponseData>();
   const [payload, setPayload] = useState<any>();
-  const [ignoreUpdatesWhileFetching, setIgnoreUpdatesWhileFetching] = useState<Boolean>();
+  const [fetching, setFetching] = useState<boolean>(false);
   const [settings, setSettings] = useState<Settings>({});
 
   // Synchronize state from the main application during initialization
@@ -26,66 +26,77 @@ const Render = memo(() => {
     });
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (setting: Settings) => {
     // clear data
-    setIgnoreUpdatesWhileFetching(true);
+    setFetching(true);
     setData(undefined);
-    const data = await fetchDocuments(payload, settings); // Incorporate settings into fetch
+    const data = await fetchDocuments(payload, setting); // Incorporate settings into fetch
     setData(data);
-    setIgnoreUpdatesWhileFetching(false);
+    setFetching(false);
     lobeChat.setPluginMessage(formatData(data));
   };
 
   // Establish EventSource connection
   useEffect(() => {
     console.log('subscribing to document updates');
-
     const unsubscribe = subscribeToDocumentUpdates(
       (newDocument) => {
-        if (ignoreUpdatesWhileFetching) return;
+        // Check if we should ignore updates while fetching
+        if (fetching) return;
 
-        const newData = {
-          ...data,
-          articles: [...data?.articles ? data.articles : [], newDocument],
-        };
+        // Update the data using functional state update
+        setData(prevData => {
+          if (!prevData) return { articles: [newDocument] };
 
-        setData(newData);
-        lobeChat.setPluginMessage(formatData(newData));
+          const updatedArticles = [...(prevData.articles || []), newDocument];
+
+          lobeChat.setPluginMessage(formatData({ articles: updatedArticles }));
+          return { articles: updatedArticles };
+        });
+        console.log('New document added:', newDocument);
       },
       
       (updatedDocument) => {
-        if (ignoreUpdatesWhileFetching) return;
+        if (fetching) return;
 
-        const newData = {
-          ...data,
-          articles: [
-            ...data?.articles ? data.articles.filter((doc) => doc.path !== updatedDocument.path) : [],
+        setData(prevData => {
+          if (!prevData) return { articles: [updatedDocument] };
+          // Filter out the old document and add the updated one
+          const updatedArticles = [
+            ...(prevData.articles ? prevData.articles.filter((doc) => doc.path !== updatedDocument.path) : []),
             updatedDocument,
-          ],
-        };
-        setData(newData);
-        lobeChat.setPluginMessage(formatData(newData));
-    },
+          ];
+          lobeChat.setPluginMessage(formatData({ articles: updatedArticles }));
+          return { articles: updatedArticles };
+        });
+      },
 
-    (deletedDocument) => {
-      if (ignoreUpdatesWhileFetching) return;
+      (deletedDocument) => {
+        if (fetching) return;
 
-      const newData = {
-        ...data,
-        articles: data?.articles ? data.articles.filter((doc) => doc.path !== deletedDocument.path) : [],
-      };
-      setData(newData)
-      lobeChat.setPluginMessage(formatData(newData));
-    });
+        // Update the data to remove the deleted document
+        setData(prevData => {
+          if (!prevData) return { articles: [] };
 
+          const updatedArticles = prevData.articles ? prevData.articles.filter((doc) => doc.path !== deletedDocument.path) : [];
+
+          lobeChat.setPluginMessage(formatData({ articles: updatedArticles }));
+          return { articles: updatedArticles };
+        });
+      }
+    );
+
+    // Cleanup function to unsubscribe from document updates
     return unsubscribe;
-  }, []);
+}, []);
+
 
   return (
     <Data
       articles={!data ? [] : data.articles}
       settings={settings}
       updateSettings={setSettings}
+      fetching={fetching}
       fetchData={fetchData}
     />
   );

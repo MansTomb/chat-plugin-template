@@ -9,12 +9,13 @@ import { Flexbox } from 'react-layout-kit';
 interface SettingsFormProps {
   settings: Settings;
   updateSettings: (newSettings: Settings) => void;
-  fetchData: () => Promise<void>;
+  fetchData: (settings: Settings) => Promise<void>;
 }
 
 const SettingsForm: React.FC<SettingsFormProps> = ({ settings, updateSettings, fetchData }) => {
   const [presetName, setPresetName] = useState<string>('');
   const [presets, setPresets] = useState<SettingsPreset[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   useEffect(() => {
     const loadPresets = async () => {
@@ -32,13 +33,17 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ settings, updateSettings, f
   };
 
   const handleLoadPreset = async (preset: SettingsPreset) => {
-    updateSettings(preset.settings); // Load selected preset's settings
-    await fetchData(); // Fetch data with new settings
+    setIsLoading(true); // Set loading state to true
+    updateSettings(preset.settings); // Load selected preset's settings    
+    await fetchData(preset.settings); // Fetch data with new settings
+    setIsLoading(false); // Set loading state back to false
   };
 
   const handleDeletePreset = async (name: string) => {
+    setIsLoading(true); // Set loading state to true for delete operation
     await deletePreset(name);
     setPresets(await fetchPresets()); // Refresh the presets
+    setIsLoading(false); // Set loading state back to false
   };
 
   // Configuration for settings fields
@@ -70,8 +75,20 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ settings, updateSettings, f
         renderItem={preset => (
           <List.Item
             actions={[
-              <Button onClick={() => handleLoadPreset(preset)}>Load</Button>,
-              <Button danger onClick={() => handleDeletePreset(preset.name)}>Delete</Button>,
+              <Button 
+                type="primary" 
+                onClick={() => handleLoadPreset(preset)} 
+                loading={isLoading} // Disable while loading
+              >
+                Load
+              </Button>,
+              <Button 
+                danger 
+                onClick={() => handleDeletePreset(preset.name)} 
+                loading={isLoading} // Disable while loading
+              >
+                Delete
+              </Button>,
             ]}
           >
             {preset.name} - {preset.settings.DOCUMENTS_ROOT_FOLDER} 
@@ -89,7 +106,6 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ settings, updateSettings, f
               value={settings[key]}
               placeholder={placeholder}
               onChange={(e) => updateSettings({ ...settings, [key]: e.target.value })}
-              // style={{ width: '200px' }}
             />
           </Flexbox>
         ))}

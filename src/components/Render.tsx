@@ -8,15 +8,16 @@ import { Flexbox } from 'react-layout-kit';
 
 interface RenderProps extends ResponseData {
   settings: Settings;
+  fetching: boolean;
   updateSettings: (newSettings: Settings) => void;
-  fetchData: () => Promise<void>;
+  fetchData: (settings: Settings) => Promise<void>;
 }
 
-const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchData }) => {
+const Render = memo<RenderProps>(({ articles, settings, fetching, updateSettings, fetchData }) => {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
   const handleFetchData = async () => {
-    await fetchData();
+    await fetchData(settings);
   };
 
   const handleArticleClick = (article: Article) => {
@@ -30,7 +31,7 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
   return (
     <Flexbox gap={24}>
       <SettingsForm settings={settings} updateSettings={updateSettings} fetchData={fetchData} />
-      <Button onClick={handleFetchData} type="primary">
+      <Button onClick={handleFetchData} type="primary" loading={fetching}>
         Fetch
       </Button>
       <ArticleTree articles={articles} onArticleSelect={handleArticleClick} />

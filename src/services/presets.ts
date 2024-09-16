@@ -1,12 +1,21 @@
 import { Settings, SettingsPreset } from '@/type';
 
-// Function to save a preset
+// Function to save a preset, overriding if the name already exists
 export const savePreset = async (name: string, settings: Settings): Promise<void> => {
-  const presets = await fetchPresets();
+  const presets = await fetchPresets(); // Fetch existing presets
   const newPreset: SettingsPreset = { name, settings };
 
-  // Add new preset to existing presets
-  presets.push(newPreset);
+  // Check if a preset with the same name already exists
+  const index = presets.findIndex(preset => preset.name === name);
+  if (index !== -1) {
+    // If it exists, replace the existing preset with the new one
+    presets[index] = newPreset;
+  } else {
+    // If it doesn't exist, add the new preset
+    presets.push(newPreset);
+  }
+
+  // Save updated presets back to localStorage
   await localStorage.setItem('settingsPresets', JSON.stringify(presets));
 };
 
