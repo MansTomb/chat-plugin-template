@@ -4,7 +4,7 @@
     {
       "url": "http://localhost:3400/api/getDocuments",
       "name": "getDocuments",
-      "description": "Retrieving all documents from database",
+      "description": "Open document database",
       "parameters": {
         "properties": {},
         "type": "object"

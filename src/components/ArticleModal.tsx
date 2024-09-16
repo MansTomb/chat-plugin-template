@@ -21,14 +21,25 @@ const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
       return <ReactMarkdown>{article.content}</ReactMarkdown>;
     }
 
-    // If the file is a TypeScript file (.tsx)
-    if (fileExtension === 'tsx' || fileExtension === 'ts') {
-      return (
-        <SyntaxHighlighter language="typescript">
-          {article.content}
-        </SyntaxHighlighter>
-      );
-    }
+    const language: string = (() => {
+      switch (fileExtension) {
+        case 'tsx':
+        case 'ts':
+          return 'typescript';
+        case 'js':
+          return 'javascript';
+        case 'cs':
+          return 'csharp';
+        default:
+          return '';
+      }
+    })();
+
+    return (
+    <SyntaxHighlighter language={language}>
+        {article.content}
+    </SyntaxHighlighter>
+    );
 
     return <div>Unsupported file type</div>;
   };
