@@ -1,4 +1,3 @@
-// PresetManager.ts
 import { Settings, SettingsPreset } from '@/type';
 
 // Function to save a preset

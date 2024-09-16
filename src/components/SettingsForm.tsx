@@ -1,6 +1,6 @@
 // SettingsForm.tsx
 import React, { useState, useEffect } from 'react';
-import { savePreset, fetchPresets, deletePreset } from '../PresetManager';
+import { savePreset, fetchPresets, deletePreset } from '../services/presets';
 import { Settings, Setting, SettingsPreset } from '@/type';
 import { Header, Input } from '@lobehub/ui';
 import { Button, List } from 'antd';
