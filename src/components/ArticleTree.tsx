@@ -4,18 +4,59 @@ import { Tree } from 'antd';
 import { Article } from '@/type';
 
 interface ArticleTreeProps {
-  treeData: TreeNode[];
+  articles: Article[]; // Pass articles as a prop
   onArticleSelect: (article: Article) => void;
 }
 
 export interface TreeNode {
-    title: string;
-    key: string;
-    children?: TreeNode[];
-    article?: Article;
-  }
+  title: string;
+  key: string;
+  children?: TreeNode[];
+  article?: Article;
+}
 
-const ArticleTree: React.FC<ArticleTreeProps> = ({ treeData, onArticleSelect }) => {
+// Function to build tree data from articles
+const buildTreeData = (articles: Article[]): TreeNode[] => {
+  const tree: Record<string, any> = {};
+
+  if (!articles) return [];
+
+  articles.forEach(article => {
+    const parts = article.path.split(/[\\\\/]|$/).filter(Boolean);
+    let currentLevel = tree;
+
+    parts.forEach((part, index) => {
+      if (!currentLevel[part]) {
+        currentLevel[part] = { children: [] };
+      }
+      if (index === parts.length - 1) { // Last part is the file
+        currentLevel[part].article = article; // Store the article object at file level
+      }
+      currentLevel = currentLevel[part].children; 
+    });
+  });
+
+  const convertTree = (node: Record<string, any>): TreeNode[] => {
+    return Object.entries(node).map(([key, value]) => ({
+      title: key,
+      key: key,
+      children: convertTree(value.children || []),
+      article: value.article, // Include article for leaf nodes
+    })).sort((a, b) => {
+      const isADirectory = a.children && a.children.length > 0;
+      const isBDirectory = b.children && b.children.length > 0;
+      if (isADirectory && !isBDirectory) return -1; // a is a directory, b is not
+      if (!isADirectory && isBDirectory) return 1;  // b is a directory, a is not
+      return 0; // both are either directories or files
+    });
+  };
+
+  return convertTree(tree);
+};
+
+const ArticleTree: React.FC<ArticleTreeProps> = ({ articles, onArticleSelect }) => {
+  const treeData = buildTreeData(articles); // Build tree data from articles
+
   return (
     <Tree
       treeData={treeData}

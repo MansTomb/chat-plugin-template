@@ -6,7 +6,7 @@ import { ResponseData, Settings } from '@/type';
 
 const Render = memo(async () => {
   const [data, setData] = useState<ResponseData>();
-  const [settings, setSettings] = useState<Settings>(await lobeChat.getPluginSettings());
+  const [settings, setSettings] = useState<Settings>({});
 
   useEffect(() => {
     lobeChat.getPluginMessage().then((e: ResponseData) => {

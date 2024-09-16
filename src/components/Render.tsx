@@ -1,7 +1,7 @@
-
+// Render.tsx
 import React, { memo, useEffect, useState } from 'react';
 import { Button } from 'antd';
-import ArticleTree, { TreeNode } from './ArticleTree';
+import ArticleTree from './ArticleTree';
 import ArticleModal from './ArticleModal';
 import Loader from './Loader';
 import SettingsForm from './SettingsForm';
@@ -25,7 +25,6 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
   const { styles } = useStyles();
   const [loading, setLoading] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [treeData, setTreeData] = useState<TreeNode[]>([]);
 
   const settingsConfig = [
     { key: 'DOCUMENTS_ROOT_FOLDER', label: 'Document Root Folder', placeholder: 'Enter document root folder' } as Setting,
@@ -47,57 +46,14 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
     setSelectedArticle(null);
   };
 
-  const buildTreeData = (articles: Article[]): TreeNode[] => {
-    const tree: Record<string, any> = {};
-
-    articles.forEach(article => {
-      const parts = article.path.split(/[\\/]|$/).filter(Boolean);
-      let currentLevel = tree;
-
-      parts.forEach((part, index) => {
-        if (!currentLevel[part]) {
-          currentLevel[part] = { children: [] };
-        }
-        if (index === parts.length - 1) { // Last part is the file
-          currentLevel[part].article = article; // Store the article object at file level
-        }
-        currentLevel = currentLevel[part].children; 
-      });
-    });
-
-    const convertTree = (node: Record<string, any>): TreeNode[] => {
-      return Object.entries(node).map(([key, value]) => ({
-        title: key,
-        key: key,
-        children: convertTree(value.children || []),
-        article: value.article, // Include article for leaf nodes
-      })).sort((a, b) => {
-        const isADirectory = a.children && a.children.length > 0;
-        const isBDirectory = b.children && b.children.length > 0;
-        if (isADirectory && !isBDirectory) return -1; // a is a directory, b is not
-        if (!isADirectory && isBDirectory) return 1;  // b is a directory, a is not
-        return 0; // both are either directories or files
-      });
-    };
-    
-    return convertTree(tree);
-  };
-
-  useEffect(() => {
-    if (articles && articles.length > 0) {
-      const formattedTreeData = buildTreeData(articles);
-      setTreeData(formattedTreeData);
-    }
-  }, [articles]);
-
   return (
     <Flexbox gap={24}>
-      <SettingsForm settings={settings} updateSettings={updateSettings} settingsConfig={settingsConfig} />
+      <SettingsForm settings={settings} updateSettings={updateSettings} fetchData={fetchData} />
       <Button onClick={handleFetchData} type="primary" loading={loading}>
         Fetch
       </Button>
       {loading && <Loader />}
-      <ArticleTree treeData={treeData} onArticleSelect={handleArticleClick} />
+      <ArticleTree articles={articles} onArticleSelect={handleArticleClick} /> {/* Pass articles to ArticleTree */}
       <ArticleModal article={selectedArticle} onClose={handleCloseModal} />
     </Flexbox>
   );

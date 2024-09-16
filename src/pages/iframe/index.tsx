@@ -10,12 +10,16 @@ import { Center } from 'react-layout-kit';
 const Render = memo(() => {
   const [data, setData] = useState<ResponseData>();
   const [payload, setPayload] = useState<any>();
-  const [settings, setSettings] = useState<Settings>({ DOCUMENTS_ROOT_FOLDER: '', /* other default settings */ });
+  const [settings, setSettings] = useState<Settings>({});
 
   // Fetch initial settings on mount
   useEffect(() => {
     const fetchSettings = async () => {
-      const settingsData = await lobeChat.getPluginSettings() as Settings;
+      const settingsData = {
+        DOCUMENTS_ROOT_FOLDER: '',
+        INCLUDE_FILTER: '',
+        EXCLUDE_FILTER: '',
+      };
       setSettings(settingsData);
     };
     fetchSettings();

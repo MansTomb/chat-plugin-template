@@ -11,33 +11,6 @@
       }
     }
   ],
-  "settings": {
-    "type": "object",
-    "required": [],
-    "properties": {
-      "DOCUMENTS_ROOT_FOLDER": {
-        "title": "Default Documents Folder",
-        "description": "Default folder for documents",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 128
-      },
-      "INCLUDE_FILTER": {
-        "title": "Defaut Include Filter",
-        "description": "Default include filter for documents (regex splited by ;)",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 128
-      },
-      "EXCLUDE_FILTER": {
-        "title": "Defaut Exclude Filter",
-        "description": "Default exclude filter for documents (regex splited by ;)",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 128
-      }
-    }
-  },
   "author": "Iwannalongnicknamethx",
   "createdAt": "2023-09-03",
   "identifier": "database-manager-standalone",

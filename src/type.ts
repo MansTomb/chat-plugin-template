@@ -22,3 +22,13 @@ export interface Setting {
   label: string;
   placeholder: string;
 }
+
+// Preset.ts
+export interface SettingsPreset {
+  name: string;  // Name of the preset
+  settings: Settings;  // Preset settings of type Settings
+}
+
+export interface PresetsState {
+  presets: SettingsPreset[];  // Array to hold all saved presets
+}
