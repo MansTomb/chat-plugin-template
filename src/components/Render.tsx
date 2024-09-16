@@ -29,7 +29,8 @@ const Render = memo<RenderProps>(({ articles, settings, updateSettings, fetchDat
 
   const settingsConfig = [
     { key: 'DOCUMENTS_ROOT_FOLDER', label: 'Document Root Folder', placeholder: 'Enter document root folder' } as Setting,
-    { key: 'FILTER', label: 'Filter (Separated by ;)', placeholder: 'Enter filter here (separated by ; regex supported)' } as Setting,
+    { key: 'INCLUDE_FILTER', label: 'Include Filter (Separated by ;)', placeholder: 'Enter filter here (separated by ; regex supported)' } as Setting,
+    { key: 'EXCLUDE_FILTER', label: 'Exclude Filter (Separated by ;)', placeholder: 'Enter exclude filter here (separated by ; regex supported)' } as Setting,
   ];
 
   const handleFetchData = async () => {

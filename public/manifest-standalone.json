@@ -22,23 +22,30 @@
         "minLength": 1,
         "maxLength": 128
       },
-      "FILTER": {
-        "title": "Defaut Filter",
-        "description": "Default filter for documents (regex splited by ;)",
+      "INCLUDE_FILTER": {
+        "title": "Defaut Include Filter",
+        "description": "Default include filter for documents (regex splited by ;)",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "EXCLUDE_FILTER": {
+        "title": "Defaut Exclude Filter",
+        "description": "Default exclude filter for documents (regex splited by ;)",
         "type": "string",
         "minLength": 1,
         "maxLength": 128
       }
     }
   },
-  "author": "LobeHub",
+  "author": "Iwannalongnicknamethx",
   "createdAt": "2023-09-03",
-  "identifier": "novel-manager-standalone",
+  "identifier": "database-manager-standalone",
   "meta": {
-    "avatar": "🕮🕮",
-    "tags": ["novel"],
-    "title": "Novel Manager",
-    "description": "Managing database of novel"
+    "avatar": "🕮",
+    "tags": ["document", "manager"],
+    "title": "Document Database",
+    "description": "Managing database of documents"
   },
   "type": "standalone",
   "ui": {

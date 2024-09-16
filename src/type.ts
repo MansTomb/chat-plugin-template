@@ -13,7 +13,8 @@ export interface RequestData {
 
 export interface Settings {
   DOCUMENTS_ROOT_FOLDER?: string;
-  FILTER?: string;
+  INCLUDE_FILTER?: string;
+  EXCLUDE_FILTER?: string;
 }
 
 export interface Setting {
