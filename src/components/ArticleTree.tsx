@@ -2,6 +2,7 @@
 import React from 'react';
 import { Tree } from 'antd';
 import { Article } from '@/type';
+import { ar } from 'vitest/dist/chunks/reporters.WnPwkmgA';
 
 interface ArticleTreeProps {
   articles: Article[]; // Pass articles as a prop
@@ -22,7 +23,9 @@ const buildTreeData = (articles: Article[]): TreeNode[] => {
   if (!articles) return [];
 
   articles.forEach(article => {
-    const parts = article.path.split(/[\\\\/]|$/).filter(Boolean);
+    // add additional folder path at start of article path Documents.
+    const pathWithFolder = `Documents/${article.path}`;
+    const parts = pathWithFolder.split(/[\\\\/]|$/).filter(Boolean);
     let currentLevel = tree;
 
     parts.forEach((part, index) => {

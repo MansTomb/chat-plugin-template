@@ -9,4 +9,9 @@ export const API =  {
     },
     body: body
   }),
+
+  documentEvents: () => {
+    const eventSource = new EventSource(url + '/api/documents/events');
+    return eventSource;
+  },
 }
