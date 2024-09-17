@@ -48,8 +48,11 @@ const Render = memo(() => {
         setData(prevData => {
           if (!prevData) return { articles: [newDocument] };
 
-          const updatedArticles = [...(prevData.articles || []), newDocument];
+          if (prevData.articles && prevData.articles.find((doc) => doc.path === newDocument.path)) {
+            return prevData;
+          }
 
+          const updatedArticles = [...(prevData.articles || []), newDocument];
           lobeChat.setPluginMessage(formatData({ articles: updatedArticles }));
           return { articles: updatedArticles };
         });
