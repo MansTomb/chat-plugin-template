@@ -12,6 +12,7 @@ interface ArticleTreeProps {
 export interface TreeNode {
   title: string;
   key: string;
+  path: string;
   children?: TreeNode[];
   article?: Article;
 }
@@ -30,8 +31,8 @@ const buildTreeData = (articles: Article[]): TreeNode[] => {
 
     parts.forEach((part, index) => {
       if (!currentLevel[part]) {
-        currentLevel[part] = { children: [] };
-      }
+        currentLevel[part] = { children: [], path: parts.slice(0, index + 1).join('/') };
+        }
       if (index === parts.length - 1) { // Last part is the file
         currentLevel[part].article = article; // Store the article object at file level
       }
@@ -42,7 +43,8 @@ const buildTreeData = (articles: Article[]): TreeNode[] => {
   const convertTree = (node: Record<string, any>): TreeNode[] => {
     return Object.entries(node).map(([key, value]) => ({
       title: key,
-      key: key,
+      key: value.path,
+      path: value.path,
       children: convertTree(value.children || []),
       article: value.article, // Include article for leaf nodes
     })).sort((a, b) => {
